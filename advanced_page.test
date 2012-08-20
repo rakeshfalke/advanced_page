@@ -1,0 +1,121 @@
+<?php
+class AdvancedPageTestCase extends DrupalWebTestCase {
+  protected $privileged_user;
+  protected $list_page_user;
+  protected $any_user;
+  protected $settings;
+
+  public static function getInfo() {
+    // Note that getInfo() strings are not translated with t().
+    return array(
+      'name' => 'Advanced Page',
+      'description' => 'Ensure that the Advanced Page content type provided functions properly.',
+      'group' => 'Advanced Page',
+    );
+  }
+
+  public function setUp() {
+    // Enable any modules required for the test.
+    parent::setUp('advanced_page');
+    // Create and log in our privileged user.
+    $this->any_user = $this->drupalCreateUser();
+    $this->privileged_user = $this->drupalCreateUser(array('administer advanced page', 'view advanced page list',
+      'create advanced_page content'));
+  }
+
+  /**
+   * Confirm that the "You are not allowed to post a new blog entry." message
+   * shows up if a user submitted blog entries, has been denied that
+   * permission, and goes to the blog page.
+   */
+  /*function testAdvancedPageCreateAnyUser() {
+    // Create a blog node for a user with no blog permissions.
+    $this->testId = 1;
+    $this->drupalLogin($this->any_user);
+    $this->drupalGet('node/add/advanced-page');
+    $this->assertResponse(403, 'Advanced Page not acceable to any_user.');
+  }*/
+
+  /**
+   * Confirm that the "You are not allowed to post a new blog entry." message
+   * shows up if a user submitted blog entries, has been denied that
+   * permission, and goes to the blog page.
+   */
+  /*function testAdvancedPageCreatePrivilegeUser() {
+    // Create a blog node for a user with no blog permissions.
+    $this->testId = 2;
+    $this->drupalLogin($this->privileged_user);
+    $this->drupalGet('node/add/advanced-page');
+    $this->assertResponse(200, 'Advanced Page acceable to privileged_user.');
+  }*/
+
+  /**
+   * Confirm that the "You are not allowed to post a new blog entry." message
+   * shows up if a user submitted blog entries, has been denied that
+   * permission, and goes to the blog page.
+   */
+  function testAdvancedPageAdmin() {
+    // Create a blog node for a user with no blog permissions.
+    $this->testId = 3;
+    /*$edit = array('advanced_page_url','advanced_page_javascript_field','advanced_page_css_field',
+      'advanced_page_file_upload_field', 'advanced_page_menu','advanced_page_allowed_ext');*/
+    //$this->settings['advanced_page_url'] = FALSE;
+    $this->settings['advanced_page_javascript_field'] = FALSE;
+    $this->settings['advanced_page_css_field'] = 1;
+    $this->privileged_user = $this->drupalCreateUser(array('administer advanced page', 'view advanced page list','create advanced_page content'));
+    $this->drupalLogin($this->privileged_user);
+    $this->drupalGet(url('admin/config/system/advanced-page/settings', array('absolute' => TRUE)));
+    $this->assertResponse(200, 'Advanced Page acceable to privileged_user.');
+    $this->drupalPost(NULL, $this->settings, t('Save configuration'));
+    $this->assertText('The configuration options have been saved.','configuration options have been saved');
+    $this->assertFieldChecked('edit-advanced-page-url');
+    $this->assertFieldByName('advanced_page_css_field');
+  }
+
+  /**
+   * Confirm that the "You are not allowed to post a new blog entry." message
+   * shows up if a user submitted blog entries, has been denied that
+   * permission, and goes to the blog page.
+   */
+  function testAdvancedPageField() {
+    // Create a blog node for a user with no blog permissions.
+    $this->testId = 4;
+    $this->settings;
+    $fileds_to_be_threre = array_keys($this->settings);
+    $filed_page = array('advanced_page_javascript_field' => 'files[field_advanced_page_attach_js_und_0]',
+      'advanced_page_css_field' => 'files[field_advanced_page_attach_css_und_0]');
+    $this->drupalGet(url('node/add/advanced-page', array('absolute' => TRUE)));
+    foreach ($fileds_to_be_threre as $filed) {
+      $this->assertFieldByName($filed_page[$filed]);
+    }
+  }
+
+
+  /**
+   * Confirm that the "You are not allowed to post a new blog entry." message
+   * shows up if a user submitted blog entries, has been denied that
+   * permission, and goes to the blog page.
+   */
+  /*function testAdvancedPageFileUpload() {
+    // Create a blog node for a user with no blog permissions.
+    $langcode = LANGUAGE_NONE;
+    $this->testId = 4;
+    $edit = array();
+  // $file = drupal_realpath('sites/default/files/default.settings.php');
+    $this->privileged_user = $this->drupalCreateUser(array('administer advanced page', 'view advanced page list',
+      'create advanced_page content'));
+    $this->drupalLogin($this->privileged_user);
+
+    $node = node_load(2);//$this->drupalCreateNode($settings);
+//        $test_file = $this->getTestFile('text');
+
+    $edit['files[field_advanced_page_attach_js_' . $langcode . '_0]'] = $this->getTestFile('image')->uri;
+    //$n = $this->drupalPost(url("node/$node->nid/edit", array('absolute' => TRUE)), $edit, 'Save');
+
+    $this->drupalPost("node/2/edit", $edit, t('Save'));
+
+    // For debugging, we might output the node structure with $this->verbose().
+    // It would only be output if the testing settings had 'verbose' set.
+    // /$this->verbose('Node created: ' . var_export($n, TRUE));
+  }*/
+}

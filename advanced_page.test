@@ -24,35 +24,29 @@ class AdvancedPageTestCase extends DrupalWebTestCase {
   }
 
   /**
-   * Confirm that the "You are not allowed to post a new blog entry." message
-   * shows up if a user submitted blog entries, has been denied that
-   * permission, and goes to the blog page.
+   * 
    */
-  /*function testAdvancedPageCreateAnyUser() {
+  function testAdvancedPageCreateAnyUser() {
     // Create a blog node for a user with no blog permissions.
     $this->testId = 1;
     $this->drupalLogin($this->any_user);
     $this->drupalGet('node/add/advanced-page');
     $this->assertResponse(403, 'Advanced Page not acceable to any_user.');
-  }*/
+  }
 
   /**
-   * Confirm that the "You are not allowed to post a new blog entry." message
-   * shows up if a user submitted blog entries, has been denied that
-   * permission, and goes to the blog page.
+   * 
    */
-  /*function testAdvancedPageCreatePrivilegeUser() {
+  function testAdvancedPageCreatePrivilegeUser() {
     // Create a blog node for a user with no blog permissions.
     $this->testId = 2;
     $this->drupalLogin($this->privileged_user);
     $this->drupalGet('node/add/advanced-page');
     $this->assertResponse(200, 'Advanced Page acceable to privileged_user.');
-  }*/
+  }
 
   /**
-   * Confirm that the "You are not allowed to post a new blog entry." message
-   * shows up if a user submitted blog entries, has been denied that
-   * permission, and goes to the blog page.
+   * 
    */
   function testAdvancedPageAdmin() {
     // Create a blog node for a user with no blog permissions.
@@ -73,9 +67,7 @@ class AdvancedPageTestCase extends DrupalWebTestCase {
   }
 
   /**
-   * Confirm that the "You are not allowed to post a new blog entry." message
-   * shows up if a user submitted blog entries, has been denied that
-   * permission, and goes to the blog page.
+   * 
    */
   function testAdvancedPageField() {
     // Create a blog node for a user with no blog permissions.
@@ -92,11 +84,8 @@ class AdvancedPageTestCase extends DrupalWebTestCase {
 
 
   /**
-   * Confirm that the "You are not allowed to post a new blog entry." message
-   * shows up if a user submitted blog entries, has been denied that
-   * permission, and goes to the blog page.
    */
-  /*function testAdvancedPageFileUpload() {
+  function testAdvancedPageFileUpload() {
     // Create a blog node for a user with no blog permissions.
     $langcode = LANGUAGE_NONE;
     $this->testId = 4;
@@ -117,5 +106,5 @@ class AdvancedPageTestCase extends DrupalWebTestCase {
     // For debugging, we might output the node structure with $this->verbose().
     // It would only be output if the testing settings had 'verbose' set.
     // /$this->verbose('Node created: ' . var_export($n, TRUE));
-  }*/
+  }
 }
